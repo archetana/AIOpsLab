@@ -23,6 +23,8 @@ elasticsearch = "^8.16.0"
 azure-identity = "^1.19.0"
 azure-ai-ml = "^1.22.1"
 paramiko = "^3.5.0"
+httpx = "^0.28.1"
+httpcore = "^1.0.9"
 
 
 [build-system]
