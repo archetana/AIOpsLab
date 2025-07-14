@@ -6,7 +6,7 @@
 import os
 import re
 import ast
-from openai import OpenAI
+from openai import AzureOpenAI
 
 from aiopslab.session import SessionItem
 from aiopslab.utils.cache import LLMCache
@@ -74,13 +74,18 @@ class GPT4Turbo:
             if cache_result is not None:
                 return cache_result
 
-        client = OpenAI(api_key=os.getenv("OPENAI_KEY"))
+        client = self.client = AzureOpenAI(
+            api_key=os.getenv("AZURE_OPENAI_API_KEY"),
+            api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-15-preview"),
+            azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
+        )
+        self.deployment_name = os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME", "gpt-4-turbo")
         try:
-            response = client.chat.completions.create(
-                messages=payload,  # type: ignore
-                model="gpt-4-turbo-2024-04-09",
-                max_tokens=1024,
+            response = self.client.chat.completions.create(
+                model=self.deployment_name,
+                messages=payload,
                 temperature=0.0,
+                max_tokens=1024,
                 top_p=0.95,
                 frequency_penalty=0.0,
                 presence_penalty=0.0,
