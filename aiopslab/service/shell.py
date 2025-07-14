@@ -36,7 +36,8 @@ class Shell:
         else:
             k8s_user = config.get("k8s_user")
             ssh_key_path = config.get("ssh_key_path", "~/.ssh/id_rsa")
-            return Shell.ssh_exec(k8s_host, k8s_user, ssh_key_path, command)
+            return Shell.local_exec(command, input_data, cwd)
+          # return Shell.ssh_exec(k8s_host, k8s_user, ssh_key_path, command)
 
     @staticmethod
     def local_exec(command: str, input_data=None, cwd=None):

@@ -80,7 +80,7 @@ class Orchestrator:
         task_desc = prob.get_task_description()
         instructions = prob.get_instructions()
         actions = prob.get_available_actions()
-
+        print(f"Available actions: {actions}")
         return task_desc, instructions, actions
 
     def register_agent(self, agent, name="agent"):
